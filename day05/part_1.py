@@ -11,7 +11,4 @@ def get_seat_id(s):
 
 
 seats_b = [x for x in open('day05/1.in').read().splitlines()]
-seat_ids = []
-for seat in seats_b:
-    seat_ids.append(get_seat_id(seat))
-print(max(seat_ids))
+print(max(get_seat_id(x) for x in seats_b))

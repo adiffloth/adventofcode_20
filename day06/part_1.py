@@ -11,5 +11,4 @@ for responses in groups:
         for response in responses:
             uniques.add(response)
 
-print(counts)
 print(sum(counts))

@@ -11,11 +11,9 @@ def get_seat_id(s):
 
 
 seats_b = [x for x in open('day05/1.in').read().splitlines()]
-seat_ids = []
-for seat in seats_b:
-    seat_ids.append(get_seat_id(seat))
-
+seat_ids = [get_seat_id(x) for x in seats_b]
 seat_ids.sort()
+
 for i, _ in enumerate(seat_ids):
     if seat_ids[i] != seat_ids[i + 1] - 1:
         print(seat_ids[i] + 1)

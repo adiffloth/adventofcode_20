@@ -10,5 +10,4 @@ for responses in groups:
     else:
         group_responses.append(set(list(responses)))
 
-print(counts)
 print(sum(counts))
