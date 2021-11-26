@@ -1,12 +1,9 @@
 import re
 
-# rules_lst, msgs = open('day19/1.in').read().split('\n\n')
-
-rules, lines = open('day19/0.in').read().split('\n\n')
-print(type(rules), type(lines))
+rules, lines = map(str.splitlines, open('day19/0.in').read().split('\n\n'))
 
 rules_s = {}
-for line in rules.splitlines():
+for line in rules:
     k, _, v = line.partition(': ')
     rules_s[k] = v
 
@@ -24,4 +21,4 @@ def _get_re(s: str) -> str:
 
 ret = re.compile(_get_re('0'))
 
-print(sum(bool(ret.fullmatch(line)) for line in lines.splitlines()))
+print(sum(bool(ret.fullmatch(line)) for line in lines))
