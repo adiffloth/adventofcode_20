@@ -1,24 +1,29 @@
 import re
 
-rules, lines = map(str.splitlines, open('day19/0.in').read().split('\n\n'))
+rules_lst, msgs = map(str.splitlines, open('day19/0.in').read().split('\n\n'))
+rules = {}
+for rule in rules_lst:
+    rule_id, rule_text = rule.split(': ')
+    rules[rule_id] = rule_text
 
-rules_s = {}
-for line in rules:
-    k, _, v = line.partition(': ')
-    rules_s[k] = v
 
-
-def _get_re(s: str) -> str:
+def build_re(s):
     if s == '|':
-        return s
+        return '|'
 
-    rule_s = rules_s[s]
-    if rule_s.startswith('"'):
-        return rule_s.strip('"')
+    rule = rules[s]
+    if rule.startswith('"'):
+        return rule.strip('"')
     else:
-        return f'({"".join(_get_re(part) for part in rule_s.split())})'
+        return f'({"".join(build_re(part) for part in rule.split())})'
 
 
-ret = re.compile(_get_re('0'))
+ptrn = re.compile(build_re('0'))
+match_count = 0
 
-print(sum(bool(ret.fullmatch(line)) for line in lines))
+for msg in msgs:
+    # print(msg, ptrn.fullmatch(msg))
+    if ptrn.fullmatch(msg):
+        match_count += 1
+
+print(match_count)
