@@ -30,6 +30,21 @@ def valid_placements(tile_masks, placed_m, x, y):
                 result.append((tile_id, mask))
     return result
 
+def valid_placements2(tile_masks, placed_masks, x, y):
+    result = []  # [(tile_id, tile_mask)]
+    t = placed_masks.get((x, y - 1))
+    rt = placed_masks.get((x + 1, y))
+    b = placed_masks.get((x, y + 1))
+    lt = placed_masks.get((x - 1, y))
+    need = (t and t[2], rt and rt[3], b and b[0], lt and lt[1])
+    for tile_id, masks in tile_masks.items():
+        if tile_id in placed_tiles.values():
+            continue
+        for mask in masks:
+            if all(need[i] is None or need[i] == mask[i] for i in range(4)):
+                result.append((tile_id, mask))
+    return result
+
 def stitch(tiles, placed_tiles, placed_masks):
     x0, y0, x1, y1 = bounds(placed_tiles)
     w, h = x1 - x0 + 1, y1 - y0 + 1
@@ -82,6 +97,7 @@ sea_monster = (
 )
 sea_monster = np.array([[int(bool(c == '#')) for c in row] for row in sea_monster])
 
+
 tile_edges = {}
 for tile_id, tile in tiles.items():
     tile_edges[tile_id] = [get_edges(t) for t in rotations(tile)]
@@ -114,3 +130,5 @@ im = stitch(tiles, placed_tiles, placed_masks)
 count = max(count_pattern(im, sea_monster) for im in rotations(im))
 ans = int(np.sum(im) - count * np.sum(sea_monster))
 print(ans)
+assert ans == 2453
+print('Test passed')
